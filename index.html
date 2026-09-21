@@ -13,7 +13,6 @@
         }
         body {
             font-family: 'Montserrat', sans-serif;
-            /* Используем ваше фото f.jpg.jpg */
             background: linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)), url('f.jpg.jpg') no-repeat center center fixed;
             background-size: cover;
             color: #fff;
@@ -109,7 +108,7 @@
 
 <div class="container">
     <button class="music-btn" onclick="toggleMusic()">🎵 Музыканы қосу / өшіру</button>
-    <audio id="bgMusic" loop>
+    <audio id="bgMusic" loop autoplay>
         <source src="Muz.mp3" type="audio/mpeg">
     </audio>
 
@@ -145,8 +144,23 @@
 </div>
 
 <script>
+    var music = document.getElementById("bgMusic");
+
+    // Попытка автовоспроизведения
+    window.addEventListener('DOMContentLoaded', function() {
+        var promise = music.play();
+        if (promise !== undefined) {
+            promise.catch(function(error) {
+                // Если браузер заблокировал автовоспроизведение, запускаем при первом касании/клике
+                document.body.addEventListener('click', function startMusic() {
+                    music.play();
+                    document.body.removeEventListener('click', startMusic);
+                }, { once: true });
+            });
+        }
+    });
+
     function toggleMusic() {
-        var music = document.getElementById("bgMusic");
         if (music.paused) {
             music.play();
         } else {
@@ -159,7 +173,6 @@
         var name = document.getElementById("guestName").value;
         var attendance = document.getElementById("attendance").value;
         
-        // Номер WhatsApp в международном формате без знака "+"
         var phoneNumber = "77012294746"; 
         
         var message = "Сәлеметсіз бе! Әділ мен Гүлнұрдың тойына шақыру бойынша жауап:%0A" +
