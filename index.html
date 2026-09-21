@@ -1,0 +1,596 @@
+<!doctype html>
+<html lang="kk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Әділ & Гүлнұр — Үйлену тойы</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Infant:ital,wght@0,400;0,600;1,400;1,600&family=Great+Vibes&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #6B1225;       /* Глубокий бордовый / Марсала */
+      --gold: #C5A059;          /* Благородное золото */
+      --gold-dark: #9A7B3E;
+      --bg-light: #FDFBF7;      /* Светло-кремовый фон */
+      --text: #2C2A29;
+      --text-muted: #736C65;
+      --border: #E8DFD1;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      color: var(--text);
+      font-family: 'Cormorant Infant', serif;
+      background: linear-gradient(rgba(253, 251, 247, 0.25), rgba(253, 251, 247, 0.25)), 
+                  url('bg.jpg') no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    /* --- Экран приветствия (Конверт / Заставка) --- */
+    .welcome-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--bg-light);
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      text-align: center;
+      transition: opacity 0.8s ease, visibility 0.8s ease;
+    }
+
+    .welcome-screen.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .envelope-icon {
+      font-size: 50px;
+      margin-bottom: 15px;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .open-btn {
+      background: linear-gradient(135deg, var(--primary), #8F1D33);
+      color: #fff;
+      border: none;
+      padding: 16px 40px;
+      border-radius: 50px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 13px;
+      letter-spacing: 3px;
+      cursor: pointer;
+      box-shadow: 0 10px 25px rgba(107, 18, 37, 0.3);
+      margin-top: 30px;
+      text-transform: uppercase;
+      transition: transform 0.3s ease;
+    }
+
+    .open-btn:active {
+      transform: scale(0.96);
+    }
+
+    /* --- Основной контейнер --- */
+    .container {
+      width: 100%;
+      max-width: 480px;
+      text-align: center;
+      padding: 25px 15px 50px;
+      position: relative;
+    }
+
+    /* Кнопка музыки */
+    .music-btn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 999;
+      background: #ffffff;
+      border: 1px solid var(--gold);
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      font-size: 18px;
+      color: var(--primary);
+    }
+
+    .music-btn.playing {
+      animation: spin 4s linear infinite;
+      background: var(--primary);
+      color: #fff;
+    }
+
+    @keyframes spin {
+      100% { transform: rotate(360deg); }
+    }
+
+    /* --- Карточки блоков --- */
+    .card {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      margin-bottom: 25px;
+      padding: 40px 24px;
+      border-radius: 30px;
+      border: 1px solid var(--border);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
+      position: relative;
+    }
+
+    /* Декоративная внутренняя рамка */
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      right: 10px;
+      bottom: 10px;
+      border: 1px solid rgba(197, 160, 89, 0.3);
+      border-radius: 22px;
+      pointer-events: none;
+    }
+
+    .script-names {
+      font-family: 'Great Vibes', cursive;
+      font-size: 58px;
+      color: var(--primary);
+      line-height: 1.2;
+      margin: 10px 0;
+    }
+
+    .badge-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 11px;
+      letter-spacing: 5px;
+      color: var(--gold-dark);
+      text-transform: uppercase;
+      font-weight: 600;
+      margin-bottom: 15px;
+    }
+
+    .invitation-body {
+      font-size: 20px;
+      line-height: 1.7;
+      color: var(--text);
+      margin: 20px 0 10px;
+    }
+
+    .section-title {
+      font-family: 'Great Vibes', cursive;
+      font-size: 45px;
+      color: var(--primary);
+      margin-bottom: 5px;
+    }
+
+    .event-time {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--primary);
+      letter-spacing: 2px;
+      margin-bottom: 20px;
+    }
+
+    /* --- Календарь --- */
+    .calendar-box {
+      width: 100%;
+      max-width: 300px;
+      margin: 0 auto 15px;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    .cal-month-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--gold-dark);
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      margin-bottom: 12px;
+    }
+
+    .cal-grid-header {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      font-weight: 600;
+      font-size: 12px;
+      color: var(--gold);
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 8px;
+    }
+
+    .cal-grid-body {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 6px 0;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .cal-day-item {
+      padding: 4px 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .cal-day-item.selected {
+      background: linear-gradient(135deg, var(--primary), #8F1D33);
+      color: #fff;
+      border-radius: 50%;
+      font-weight: bold;
+      width: 30px;
+      height: 30px;
+      margin: 0 auto;
+      box-shadow: 0 4px 12px rgba(107, 18, 37, 0.35);
+    }
+
+    /* --- Таймер --- */
+    .timer-header {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 10px;
+      letter-spacing: 3px;
+      color: var(--gold-dark);
+      text-transform: uppercase;
+      margin-top: 25px;
+    }
+
+    .timer-container {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .timer-block {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .timer-val {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 19px;
+      font-weight: 600;
+      color: var(--primary);
+      background: #FDFBF7;
+      width: 52px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+    }
+
+    .timer-sub {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 9px;
+      color: var(--text-muted);
+      margin-top: 5px;
+    }
+
+    /* --- Карты / Геолокация --- */
+    .btn-action {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: #ffffff;
+      text-decoration: none;
+      padding: 14px 32px;
+      border-radius: 30px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 11px;
+      letter-spacing: 2px;
+      margin-top: 15px;
+      text-transform: uppercase;
+      box-shadow: 0 4px 15px rgba(197, 160, 89, 0.3);
+      font-weight: 500;
+    }
+
+    .hosts-divider {
+      margin-top: 25px;
+      padding-top: 20px;
+      border-top: 1px dashed var(--border);
+    }
+
+    .hosts-caption {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 11px;
+      letter-spacing: 2px;
+      color: var(--gold-dark);
+      text-transform: uppercase;
+    }
+
+    .hosts-names {
+      font-size: 24px;
+      font-weight: 600;
+      color: var(--primary);
+      margin-top: 4px;
+    }
+
+    /* --- Форма опроса --- */
+    .form-element {
+      text-align: left;
+      margin-bottom: 12px;
+    }
+
+    .form-input, textarea {
+      width: 100%;
+      padding: 14px 16px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background-color: #FDFBF7;
+      font-family: 'Cormorant Infant', serif;
+      font-size: 18px;
+      color: var(--text);
+      outline: none;
+    }
+
+    textarea {
+      resize: vertical;
+      height: 80px;
+    }
+
+    .radio-card {
+      display: flex;
+      align-items: center;
+      padding: 12px 15px;
+      background: #FDFBF7;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      margin-bottom: 8px;
+      cursor: pointer;
+      font-size: 18px;
+    }
+
+    .radio-card input {
+      margin-right: 12px;
+      accent-color: var(--primary);
+    }
+
+    .btn-submit {
+      width: 100%;
+      background: linear-gradient(135deg, var(--primary), #8F1D33);
+      color: white;
+      border: none;
+      padding: 16px;
+      border-radius: 30px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      cursor: pointer;
+      margin-top: 10px;
+      box-shadow: 0 5px 20px rgba(107, 18, 37, 0.25);
+      font-weight: 500;
+    }
+
+    /* --- Финальный блок --- */
+    .footer-card {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 25px;
+      padding: 25px 20px;
+      border: 1px solid var(--border);
+      font-size: 20px;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="welcome-screen" id="welcomeOverlay">
+    <div class="envelope-icon">💌</div>
+    <div class="badge-title">Үйлену тойға шақыру</div>
+    <div class="script-names">Әділ & Гүлнұр</div>
+    <button class="open-btn" onclick="startApp()">Шақыруды ашу</button>
+  </div>
+
+  <audio id="bgAudio" loop preload="auto">
+    <source src="music.mp3" type="audio/mp3">
+  </audio>
+
+  <button class="music-btn" id="musicToggleBtn" onclick="toggleAudio()">🎵</button>
+
+  <div class="container">
+
+    <div class="card" style="margin-top: 10px;">
+      <div style="color: var(--gold); font-size: 22px; margin-bottom: 5px;">❦</div>
+      <div class="badge-title">Үйлену тойы</div>
+      <div class="script-names">Әділ & Гүлнұр</div>
+
+      <div class="invitation-body">
+        <b>Құрметті қонақтар!</b><br><br>
+        Сіздерді ұлымыз <b>Әділ</b> мен келініміз <b>Гүлнұрдың</b> үйлену тойына арналған ақ дастарханымыздың қадірлі қонағы болуға шақырамыз!
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-title">Той салтанаты:</div>
+      <div class="event-time">05 ЖЕЛТОҚСАН 2026 ЖЫЛ<br>САҒАТ 14:00</div>
+
+      <div class="calendar-box">
+        <div class="cal-month-title">Желтоқсан 2026</div>
+        <div class="cal-grid-header">
+          <div>ДС</div><div>СС</div><div>СР</div><div>БС</div><div>ЖМ</div><div>СБ</div><div>ЖБ</div>
+        </div>
+        <div class="cal-grid-body">
+          <div></div><div>1</div><div>2</div><div>3</div><div>4</div>
+          <div><div class="cal-day-item selected">5</div></div><div>6</div>
+          <div>7</div><div>8</div><div>9</div><div>10</div><div>11</div><div>12</div><div>13</div>
+          <div>14</div><div>15</div><div>16</div><div>17</div><div>18</div><div>19</div><div>20</div>
+          <div>21</div><div>22</div><div>23</div><div>24</div><div>25</div><div>26</div><div>27</div>
+          <div>28</div><div>29</div><div>30</div><div>31</div>
+        </div>
+      </div>
+
+      <div class="timer-header">Тойдың басталуына дейін:</div>
+      <div class="timer-container" id="timerGrid">
+        <div class="timer-block"><div class="timer-val" id="daysVal">00</div><div class="timer-sub">КҮН</div></div>
+        <div class="timer-block"><div class="timer-val" id="hoursVal">00</div><div class="timer-sub">САҒАТ</div></div>
+        <div class="timer-block"><div class="timer-val" id="minutesVal">00</div><div class="timer-sub">МИНУТ</div></div>
+        <div class="timer-block"><div class="timer-val" id="secondsVal">00</div><div class="timer-sub">СЕКУНД</div></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-title">Мекен-жайымыз:</div>
+      <div class="invitation-body">
+        Теміртау қаласы,<br>
+        <b>«Нұрай» мейрамханасы</b>
+      </div>
+      <a href="https://2gis.kz/temirtau" target="_blank" class="btn-action">
+        🗺 Картадан көру (2GIS)
+      </a>
+
+      <div class="hosts-divider">
+        <div class="hosts-caption">Той иелері:</div>
+        <div class="hosts-names">Ерғанат — Самал</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-title">Қатысуыңызды растаңыз</div>
+      <p style="font-size:15px; color: var(--text-muted); margin-bottom:20px;">
+        Төмендегі форманы толтырып, қуанышымызға ортақ болыңыз:
+      </p>
+
+      <div class="form-element">
+        <input type="text" id="guestNameInput" class="form-input" placeholder="Аты-жөніңіз">
+      </div>
+
+      <div class="form-element">
+        <input type="text" id="partnerNameInput" class="form-input" placeholder="Жұбайыңыздың аты-жөні">
+      </div>
+
+      <div class="form-element">
+        <label class="radio-card">
+          <input type="radio" name="attendanceOption" value="Әрине, келемін" checked>
+          Әрине, келемін
+        </label>
+        <label class="radio-card">
+          <input type="radio" name="attendanceOption" value="Жұбайыммен барамын">
+          Жұбайыммен барамын
+        </label>
+        <label class="radio-card">
+          <input type="radio" name="attendanceOption" value="Өкінішке орай, келе алмаймын">
+          Өкінішке орай, келе алмаймын
+        </label>
+      </div>
+
+      <div class="form-element">
+        <textarea id="wishesInput" placeholder="Той иелеріне тілегіңіз..."></textarea>
+      </div>
+
+      <button class="btn-submit" onclick="submitToWhatsApp()">Жауапты жіберу</button>
+    </div>
+
+    <div class="footer-card">
+      Сіздердің ақ тілектеріңіз біздің қуанышымызды еселей түседі! 🤍<br><br>
+      <b style="color: var(--primary);">Әділ мен Гүлнұрдың тойында кездескенше!</b>
+    </div>
+
+  </div>
+
+  <script>
+    // ⚠️ Укажите ваш телефонный номер WhatsApp (без плюсов и пробелов)
+    const WHATSAPP_PHONE = "77479188199";
+
+    const bgAudio = document.getElementById("bgAudio");
+    const musicToggleBtn = document.getElementById("musicToggleBtn");
+    let isPlaying = false;
+
+    function startApp() {
+      document.getElementById("welcomeOverlay").classList.add("hidden");
+      bgAudio.play().then(() => {
+        isPlaying = true;
+        musicToggleBtn.classList.add("playing");
+        musicToggleBtn.innerText = "🎶";
+      }).catch(err => console.log(err));
+    }
+
+    function toggleAudio() {
+      if (isPlaying) {
+        bgAudio.pause();
+        musicToggleBtn.classList.remove("playing");
+        musicToggleBtn.innerText = "🎵";
+      } else {
+        bgAudio.play();
+        musicToggleBtn.classList.add("playing");
+        musicToggleBtn.innerText = "🎶";
+      }
+      isPlaying = !isPlaying;
+    }
+
+    // Установка целевой даты: 5 декабря 2026, 14:00
+    const targetDate = new Date("2026-12-05T14:00:00+05:00").getTime();
+
+    function updateTimer() {
+      const now = new Date().getTime();
+      const diff = targetDate - now;
+
+      if (diff > 0) {
+        const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const s = Math.floor((diff % (1000 * 60)) / 1000);
+
+        document.getElementById("daysVal").innerText = d < 10 ? '0' + d : d;
+        document.getElementById("hoursVal").innerText = h < 10 ? '0' + h : h;
+        document.getElementById("minutesVal").innerText = m < 10 ? '0' + m : m;
+        document.getElementById("secondsVal").innerText = s < 10 ? '0' + s : s;
+      } else {
+        document.getElementById("timerGrid").innerHTML = "<div style='color:var(--primary); font-weight:bold; font-size: 18px;'>Той басталды!</div>";
+      }
+    }
+
+    setInterval(updateTimer, 1000);
+    updateTimer();
+
+    function submitToWhatsApp() {
+      const guestName = document.getElementById('guestNameInput').value.trim();
+      const partnerName = document.getElementById('partnerNameInput').value.trim();
+      const attendance = document.querySelector('input[name="attendanceOption"]:checked').value;
+      const wishes = document.getElementById('wishesInput').value.trim();
+
+      if (!guestName) {
+        alert('Өтініш, аты-жөніңізді енгізіңіз!');
+        return;
+      }
+
+      let text = `Сәлеметсіз бе! Мен "Әділ & Гүлнұр Үйлену тойы" шақыруы бойынша жауап беремін:\n\n`;
+      text += `👤 Аты-жөні: ${guestName}\n`;
+      if (partnerName) text += `👥 Жұбайы: ${partnerName}\n`;
+      text += `📌 Жауабы: ${attendance}\n`;
+      if (wishes) text += `✍️ Тілегі: ${wishes}\n`;
+
+      const encodedText = encodeURIComponent(text);
+      window.location.href = `https://wa.me/${WHATSAPP_PHONE}?text=${encodedText}`;
+    }
+  </script>
+</body>
+</html>
